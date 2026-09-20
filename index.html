@@ -106,6 +106,7 @@
   .date { margin-left: auto; font-weight: 400; }
   .modtag { font-weight: 400; }
  
+  .version { margin: 40px 0 0; font-size: 0.8rem; color: var(--ink-soft); opacity: 0.7; }
   .empty { padding: 28px; border: 1.5px dashed var(--line); border-radius: 10px; color: var(--ink-soft); }
   .notice { background: var(--new-bg); color: var(--ink); border-radius: 8px; padding: 10px 14px; margin-bottom: 18px; font-size: 0.95rem; }
  
@@ -148,6 +149,7 @@
     </nav>
     <main id="content" tabindex="-1"></main>
   </div>
+  <p class="version" id="version"></p>
 </div>
  
 <script>
@@ -155,6 +157,9 @@
    EDIT THIS BLOCK. Everything below it can stay as is.
    ============================================================ */
 const CONFIG = {
+  // Change this whenever you edit the file, so you can confirm which copy is live.
+  version: "v2 - 8 modules, sheet connected",
+ 
   title: "Your questions, answered",
   subtitle: "Anonymous questions from this course, grouped by module. New answers are added each week and everything stays here as an archive.",
  
@@ -195,6 +200,7 @@ const ENTRIES = [
   document.title = CONFIG.title;
   $("page-title").textContent = CONFIG.title;
   $("page-sub").textContent = CONFIG.subtitle;
+  $("version").textContent = CONFIG.version || "";
  
   function parseCSV(text) {
     const rows = []; let row = [], cur = "", q = false;
@@ -359,4 +365,3 @@ const ENTRIES = [
 })();
 </script>
 </body>
-</html>
