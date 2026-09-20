@@ -40,13 +40,13 @@
     font-family: var(--sans); font-size: 1.0625rem; line-height: 1.6;
   }
   .wrap { max-width: 1120px; margin: 0 auto; padding: 32px 20px 64px; }
-
+ 
   header h1 {
     font-family: var(--serif); font-weight: 600; font-size: clamp(1.9rem, 4vw, 2.6rem);
     line-height: 1.15; margin: 0 0 8px; letter-spacing: -0.01em;
   }
   header p { margin: 0; max-width: 62ch; color: var(--ink-soft); }
-
+ 
   .toolbar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin: 28px 0 24px; }
   .search { flex: 1 1 260px; position: relative; }
   .search input {
@@ -55,9 +55,9 @@
   }
   .search input::placeholder { color: var(--ink-soft); }
   .stat { color: var(--ink-soft); font-size: 0.95rem; }
-
+ 
   .layout { display: grid; grid-template-columns: 250px 1fr; gap: 36px; align-items: start; }
-
+ 
   nav.modules { position: sticky; top: 16px; }
   nav.modules h2 { font-size: 1rem; margin: 0 0 10px; color: var(--ink-soft); font-weight: 700; }
   nav.modules ul { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--line); }
@@ -75,14 +75,14 @@
     background: var(--panel); border: 1px solid var(--line); border-radius: 99px; padding: 0 8px;
   }
   .dot { display:inline-block; width:8px; height:8px; border-radius:50%; background: var(--new); margin-left:6px; vertical-align: middle; }
-
+ 
   section.module { margin-bottom: 44px; }
   section.module > h2 {
     font-family: var(--serif); font-weight: 600; font-size: 1.6rem; line-height: 1.25;
     margin: 0 0 4px;
   }
   .module-sub { color: var(--ink-soft); margin: 0 0 18px; font-size: 0.95rem; }
-
+ 
   article.qa { margin: 0 0 22px; }
   .ask, .reply { position: relative; padding: 14px 18px; border-radius: 10px; }
   .ask {
@@ -105,12 +105,12 @@
   }
   .date { margin-left: auto; font-weight: 400; }
   .modtag { font-weight: 400; }
-
+ 
   .empty { padding: 28px; border: 1.5px dashed var(--line); border-radius: 10px; color: var(--ink-soft); }
   .notice { background: var(--new-bg); color: var(--ink); border-radius: 8px; padding: 10px 14px; margin-bottom: 18px; font-size: 0.95rem; }
-
+ 
   button:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-
+ 
   @media (max-width: 800px) {
     .layout { grid-template-columns: 1fr; gap: 20px; }
     nav.modules { position: static; }
@@ -132,7 +132,7 @@
     <h1 id="page-title"></h1>
     <p id="page-sub"></p>
   </header>
-
+ 
   <div class="toolbar">
     <div class="search">
       <label for="q" class="sr" style="position:absolute;left:-9999px">Search questions and answers</label>
@@ -140,7 +140,7 @@
     </div>
     <div class="stat" id="stat" aria-live="polite"></div>
   </div>
-
+ 
   <div class="layout">
     <nav class="modules" aria-label="Modules">
       <h2>Modules</h2>
@@ -149,7 +149,7 @@
     <main id="content" tabindex="-1"></main>
   </div>
 </div>
-
+ 
 <script>
 /* ============================================================
    EDIT THIS BLOCK. Everything below it can stay as is.
@@ -157,67 +157,45 @@
 const CONFIG = {
   title: "Your questions, answered",
   subtitle: "Anonymous questions from this course, grouped by module. New answers are added each week and everything stays here as an archive.",
-
+ 
   // Days an entry keeps its "New" badge
   newDays: 7,
-
+ 
   // Optional. Paste the "Publish to web > CSV" link of your Google Sheet here.
   // The sheet needs these column headers: Module, Date, Question, Answer, Publish
   // Works when this page is hosted on your own site (for example GitHub Pages).
   // Leave empty to use the ENTRIES list below.
-  sheetCsvUrl: "",
-
+  sheetCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6mWIsEAZX9OUDpobzvTDcFOfRUIAdQL1obWR9FhOTKrrExfayB7xABNaP9-C_A5-2J3kATtbO7Juq/pub?output=csv",
+ 
   // Module order and names. "id" is what you type in the Module column.
   modules: [
-    { id: 1, title: "Module 1: Foundations of complementary health" },
-    { id: 2, title: "Module 2: Mind-body approaches" },
-    { id: 3, title: "Module 3: Herbs and dietary supplements" },
-    { id: 4, title: "Module 4: Traditional healing systems" },
-    { id: 5, title: "Module 5: Manual and body-based therapies" },
-    { id: 6, title: "Module 6: Energy and biofield approaches" }
+    { id: 1, title: "Module 1: Introduction" },
+    { id: 2, title: "Module 2: Evidence Informed Practice" },
+    { id: 3, title: "Module 3: Biologically Based Approaches" },
+    { id: 4, title: "Module 4: Mind-Body Based Approaches" },
+    { id: 5, title: "Module 5: Energy Therapy Based Approaches" },
+    { id: 6, title: "Module 6: Manipulative and Body Based Approaches" },
+    { id: 7, title: "Module 7: Whole Medical Systems" },
+    { id: 8, title: "Module 8: Diversity, Equity and Inclusion in Complementary Health Approaches" }
   ]
 };
-
-// SAMPLE ENTRIES. Replace with your own. Date format: YYYY-MM-DD.
-// Use a blank line in an answer (\n\n) to start a new paragraph.
+ 
+// Backup entries, used only if the Google Sheet cannot be reached. Date format: YYYY-MM-DD.
+// Use \n\n in an answer to start a new paragraph.
 const ENTRIES = [
-  { module: 1, date: "2026-09-08",
-    question: "What is the difference between complementary, alternative, and integrative health?",
-    answer: "Complementary means used together with conventional care. Alternative means used in place of it. Integrative describes coordinated, whole-person care that brings the two together, usually with attention to evidence and safety.\n\nMost people who use these approaches use them as complements." },
-  { module: 1, date: "2026-09-08",
-    question: "If a supplement or therapy isn't proven, why do so many people still use it?",
-    answer: "Reasons include cultural tradition, dissatisfaction with conventional options, wanting more control over their own care, and real benefit that some people notice. A useful habit for this course is to ask what the evidence says, and also what the person is hoping the approach will do for them." },
-  { module: 2, date: "2026-09-10",
-    question: "Is meditation the same thing as mindfulness?",
-    answer: "Mindfulness is one kind of meditation practice, built around paying attention to the present moment without judging it. Meditation is the broader family and also includes practices like focused-attention, loving-kindness, and mantra-based meditation." },
-  { module: 3, date: "2026-09-12",
-    question: "Are dietary supplements regulated the way medications are?",
-    answer: "No. Under the Dietary Supplement Health and Education Act of 1994, supplements do not need FDA approval before they are sold. Manufacturers are responsible for safety and labeling, and the FDA generally acts after a product is on the market and a problem appears.\n\nThis is why third-party testing seals and a pharmacist's review of a product matter." },
-  { module: 3, date: "2026-09-17",
-    question: "Can St. John's wort interfere with other medicines?",
-    answer: "Yes, and it is one of the best-known herb-drug interactions. It can speed up how the body clears many medications, including some hormonal contraceptives, certain antidepressants, and some transplant and HIV drugs, making them less effective.\n\nAnyone taking it alongside prescription medicine should check with a pharmacist or prescriber first." },
-  { module: 4, date: "2026-09-15",
-    question: "Do traditional systems like Ayurveda and Traditional Chinese Medicine have to be 'proven' by Western research to be valid?",
-    answer: "This is a live debate. Western trial methods can test specific interventions, such as acupuncture for chronic pain. They are less suited to testing a whole system that individualizes treatment. We will come back to this when we discuss how to judge evidence across different frameworks." },
-  { module: 5, date: "2026-09-16",
-    question: "What's the difference between acupuncture and dry needling?",
-    answer: "Both insert thin needles. Acupuncture comes from a traditional Chinese framework of points and meridians. Dry needling, as practiced by many physical therapists, targets myofascial trigger points using Western anatomy. The techniques overlap, but training, theory, and scope of practice differ, and they vary by state." },
-  { module: 6, date: "2026-09-18",
-    question: "Does Reiki have any scientific support?",
-    answer: "Some small studies report reduced stress, anxiety, or pain, but the studies are often small and the results are mixed. No mechanism involving an energy field has been demonstrated. Researchers note that relaxation, attention, and expectation may explain much of the benefit people report.\n\nWe will look at how to read a study like this in class." }
 ];
 /* ============================================================
    END OF EDIT BLOCK
    ============================================================ */
-
+ 
 (function () {
   const state = { module: "all", query: "", entries: [] };
   const $ = (id) => document.getElementById(id);
-
+ 
   document.title = CONFIG.title;
   $("page-title").textContent = CONFIG.title;
   $("page-sub").textContent = CONFIG.subtitle;
-
+ 
   function parseCSV(text) {
     const rows = []; let row = [], cur = "", q = false;
     for (let i = 0; i < text.length; i++) {
@@ -236,7 +214,7 @@ const ENTRIES = [
     if (cur.length || row.length) { row.push(cur); rows.push(row); }
     return rows;
   }
-
+ 
   function fromCSV(text) {
     const rows = parseCSV(text).filter(r => r.some(c => c.trim()));
     const head = rows.shift().map(h => h.trim().toLowerCase());
@@ -249,7 +227,7 @@ const ENTRIES = [
       publish: (r[idx("publish")] || "y").trim().toLowerCase()
     })).filter(e => e.question && e.answer && e.publish.startsWith("y"));
   }
-
+ 
   function parseDate(s) {
     const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s);
     if (m) return new Date(+m[1], +m[2] - 1, +m[3]);
@@ -257,12 +235,12 @@ const ENTRIES = [
   }
   function fmtDate(d) { return d ? d.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" }) : ""; }
   function isNew(d) { return d && (Date.now() - d.getTime()) / 86400000 <= CONFIG.newDays; }
-
+ 
   function prepare(list) {
     return list.map(e => Object.assign({}, e, { d: parseDate(e.date) }))
       .sort((a, b) => (b.d ? b.d.getTime() : 0) - (a.d ? a.d.getTime() : 0));
   }
-
+ 
   function visible() {
     const q = state.query.trim().toLowerCase();
     return state.entries.filter(e => {
@@ -270,14 +248,14 @@ const ENTRIES = [
       return state.module === "all" || e.module === state.module;
     });
   }
-
+ 
   function el(tag, cls, text) {
     const n = document.createElement(tag);
     if (cls) n.className = cls;
     if (text != null) n.textContent = text;
     return n;
   }
-
+ 
   function renderNav() {
     const ul = $("module-list"); ul.innerHTML = "";
     const add = (id, label, count, hasNew) => {
@@ -296,7 +274,7 @@ const ENTRIES = [
       add(m.id, m.title, inMod.length, inMod.some(e => isNew(e.d)));
     });
   }
-
+ 
   function renderEntry(e, showModule) {
     const a = el("article", "qa");
     const ask = el("div", "ask");
@@ -310,7 +288,7 @@ const ENTRIES = [
     if (e.d) who.appendChild(el("span", "date", fmtDate(e.d)));
     ask.appendChild(who);
     ask.appendChild(el("p", "text", e.question));
-
+ 
     const reply = el("div", "reply");
     reply.appendChild(el("div", "who", "Instructor answer"));
     const body = el("div", "text");
@@ -319,14 +297,14 @@ const ENTRIES = [
     a.appendChild(ask); a.appendChild(reply);
     return a;
   }
-
+ 
   function renderContent() {
     const box = $("content"); box.innerHTML = "";
     const list = visible();
     const q = state.query.trim();
-
+ 
     if (state.loadError) box.appendChild(el("div", "notice", state.loadError));
-
+ 
     if (q) {
       const s = el("section", "module");
       s.appendChild(el("h2", null, "Search results"));
@@ -359,11 +337,11 @@ const ENTRIES = [
     const total = state.entries.length, newCount = state.entries.filter(e => isNew(e.d)).length;
     $("stat").textContent = total + " questions answered" + (newCount ? ", " + newCount + " new this week" : "");
   }
-
+ 
   function render() { renderNav(); renderContent(); }
-
+ 
   $("q").addEventListener("input", (ev) => { state.query = ev.target.value; render(); });
-
+ 
   async function init() {
     state.entries = prepare(ENTRIES);
     if (CONFIG.sheetCsvUrl) {
