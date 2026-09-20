@@ -1,4 +1,3 @@
-# FA26ISCI630aQR
 # Student Questions Archive: Faculty Guide
  
 This guide explains how to run the anonymous Q&A archive for a course, from first setup through each weekly update and each new semester.
